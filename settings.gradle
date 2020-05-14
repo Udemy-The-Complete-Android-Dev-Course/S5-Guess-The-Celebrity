@@ -1,0 +1,2 @@
+rootProject.name='S5 Guess The Celebrity'
+include ':app'
