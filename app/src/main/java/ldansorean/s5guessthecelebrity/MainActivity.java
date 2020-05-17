@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
             Celebrity selectedCelebrity = gameMaster.getRandomCelebrity();
             Bitmap imageBitmap = imageDownloadTask.execute(selectedCelebrity.getPhotoUrl()).get();
             if (imageBitmap != null)
-                image.setImageBitmap(imageDownloadTask.execute(selectedCelebrity.getPhotoUrl()).get());
+                image.setImageBitmap(imageBitmap);
             else
                 showErrorMessage("There was an error getting the celebrity image. Check your internet connection and try again later.");
         } catch (Exception e) {
