@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String WEBPAGE_URL = "https://www.imdb.com/list/ls052283250/";
 
     private GameMaster gameMaster;
-    private GameChallenge gameChallenge;
+    private GameMaster.GameChallenge gameChallenge;
     private ImageDownloadTask imageDownloadTask;
     private ImageView image;
     private LinearLayout namesOptionButtons;
