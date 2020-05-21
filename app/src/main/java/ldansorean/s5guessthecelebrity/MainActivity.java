@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
         if (gameChallenge.isGuessCorrect(idx)) {
             Toast.makeText(getApplicationContext(), "Correct!", Toast.LENGTH_SHORT).show();
         } else {
-
             Toast.makeText(getApplicationContext(), "Wrong! It was " + gameChallenge.getCelebrityName(), Toast.LENGTH_SHORT).show();
         }
 
