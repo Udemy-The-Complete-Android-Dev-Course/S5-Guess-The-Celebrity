@@ -4,12 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -18,8 +18,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String WEBPAGE_URL = "https://www.imdb.com/list/ls052283250/";
 
     private GameMaster gameMaster;
-    private GameMaster.GameChallenge gameChallenge;
-    private ImageDownloadTask imageDownloadTask;
+    private GameChallenge gameChallenge;
     private ImageView image;
     private LinearLayout namesOptionButtons;
 
@@ -28,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        imageDownloadTask = new ImageDownloadTask();
         image = findViewById(R.id.image);
         namesOptionButtons = findViewById(R.id.namesOptions);
 
@@ -36,14 +34,21 @@ public class MainActivity extends AppCompatActivity {
         if (gameMaster.getNoOfCelebrities() == 0) {
             showErrorMessage("There was an error initializing the game. Check your internet connection and try again later.");
         } else {
-            createChallenge();
+            showNewChallenge();
         }
 
     }
 
     public void celebrityChosen(View view) {
         int idx = namesOptionButtons.indexOfChild(view);
-        Log.i("app", "clicked on: " + idx);
+        if (gameChallenge.isGuessCorrect(idx)) {
+            Toast.makeText(getApplicationContext(), "Correct!", Toast.LENGTH_SHORT).show();
+        } else {
+
+            Toast.makeText(getApplicationContext(), "Wrong! It was " + gameChallenge.getCelebrityName(), Toast.LENGTH_SHORT).show();
+        }
+
+        showNewChallenge();
     }
 
     private void showErrorMessage(String message) {
@@ -68,11 +73,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void createChallenge() {
+    private void showNewChallenge() {
         try {
-            gameChallenge = gameMaster.getGameChallenge();
+            gameChallenge = gameMaster.createGameChallenge();
             //set image
-            Bitmap imageBitmap = imageDownloadTask.execute(gameChallenge.getImageURL()).get();
+            Bitmap imageBitmap = new ImageDownloadTask().execute(gameChallenge.getImageURL()).get();
             if (imageBitmap != null)
                 image.setImageBitmap(imageBitmap);
             else
